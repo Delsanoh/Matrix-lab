@@ -18,12 +18,18 @@
     <ClCompile Include="Лаба 4.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="functions.cpp">
+    <ClCompile Include="Matrix_Operations.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="functions.h">
+    <ClInclude Include="Matrix_Operations.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

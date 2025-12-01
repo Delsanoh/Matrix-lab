@@ -124,11 +124,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="functions.cpp" />
+    <ClCompile Include="Matrix_Operations.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Лаба 4.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="functions.h" />
+    <ClInclude Include="Matrix_Operations.h" />
+    <ClInclude Include="Matrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
