@@ -6,28 +6,24 @@
 #include <ctime>
 #include <limits>
 
-using namespace std;
-
-// ========== КОНСТРУКТОРЫ ==========
-
 template<typename T>
 Matrix<T>::Matrix(size_t r, size_t c) : rows(r), cols(c) {
     if (r == 0 || c == 0) {
-        throw invalid_argument("Matrix dimensions must be positive");
+        throw std::invalid_argument("Matrix dimensions must be positive");
     }
-    data.resize(rows, vector<T>(cols, T()));
+    data.resize(rows, std::vector<T>(cols, T()));
 }
 
 template<typename T>
 Matrix<T>::Matrix(size_t r, size_t c, T value) : rows(r), cols(c) {
     if (r == 0 || c == 0) {
-        throw invalid_argument("Matrix dimensions must be positive");
+        throw std::invalid_argument("Matrix dimensions must be positive");
     }
-    data.resize(rows, vector<T>(cols, value));
+    data.resize(rows, std::vector<T>(cols, value));
 }
 
 template<typename T>
-Matrix<T>::Matrix(const vector<vector<T>>& input) {
+Matrix<T>::Matrix(const std::vector<std::vector<T>>& input) {
     if (input.empty()) {
         rows = 0;
         cols = 0;
@@ -39,7 +35,7 @@ Matrix<T>::Matrix(const vector<vector<T>>& input) {
 
     for (size_t i = 1; i < rows; ++i) {
         if (input[i].size() != cols) {
-            throw invalid_argument("All rows must have the same length");
+            throw std::invalid_argument("All rows must have the same length");
         }
     }
 
@@ -51,12 +47,10 @@ Matrix<T>::Matrix(const Matrix& other) : data(other.data), rows(other.rows), col
 
 template<typename T>
 Matrix<T>::Matrix(Matrix&& other) noexcept
-    : data(move(other.data)), rows(other.rows), cols(other.cols) {
+    : data(std::move(other.data)), rows(other.rows), cols(other.cols) {
     other.rows = 0;
     other.cols = 0;
 }
-
-// ========== ОПЕРАТОРЫ ПРИСВАИВАНИЯ ==========
 
 template<typename T>
 Matrix<T>& Matrix<T>::operator=(const Matrix& other) {
@@ -71,7 +65,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix& other) {
 template<typename T>
 Matrix<T>& Matrix<T>::operator=(Matrix&& other) noexcept {
     if (this != &other) {
-        data = move(other.data);
+        data = std::move(other.data);
         rows = other.rows;
         cols = other.cols;
         other.rows = 0;
@@ -80,19 +74,17 @@ Matrix<T>& Matrix<T>::operator=(Matrix&& other) noexcept {
     return *this;
 }
 
-// ========== ПРОВЕРКИ ИНДЕКСОВ ==========
-
 template<typename T>
 void Matrix<T>::checkRowIndex(size_t row) const {
     if (row >= rows) {
-        throw out_of_range("Row index out of range");
+        throw std::out_of_range("Row index out of range");
     }
 }
 
 template<typename T>
 void Matrix<T>::checkColIndex(size_t col) const {
     if (col >= cols) {
-        throw out_of_range("Column index out of range");
+        throw std::out_of_range("Column index out of range");
     }
 }
 
@@ -101,8 +93,6 @@ void Matrix<T>::checkIndices(size_t row, size_t col) const {
     checkRowIndex(row);
     checkColIndex(col);
 }
-
-// ========== ДОСТУП К ЭЛЕМЕНТАМ ==========
 
 template<typename T>
 T& Matrix<T>::operator()(size_t row, size_t col) {
@@ -117,30 +107,28 @@ const T& Matrix<T>::operator()(size_t row, size_t col) const {
 }
 
 template<typename T>
-vector<T>& Matrix<T>::operator[](size_t row) {
+std::vector<T>& Matrix<T>::operator[](size_t row) {
     checkRowIndex(row);
     return data[row];
 }
 
 template<typename T>
-const vector<T>& Matrix<T>::operator[](size_t row) const {
+const std::vector<T>& Matrix<T>::operator[](size_t row) const {
     checkRowIndex(row);
     return data[row];
 }
-
-// ========== ОПЕРАЦИИ ДЛЯ ЗАДАЧИ ==========
 
 template<typename T>
 void Matrix<T>::findMaxInSubmatrix(size_t start, size_t& maxRow, size_t& maxCol) const {
     if (isEmpty()) {
-        throw runtime_error("Matrix is empty");
+        throw std::runtime_error("Matrix is empty");
     }
 
     if (start >= rows || start >= cols) {
-        throw out_of_range("Start index out of range");
+        throw std::out_of_range("Start index out of range");
     }
 
-    T maxVal = numeric_limits<T>::lowest();
+    T maxVal = std::numeric_limits<T>::lowest();
     maxRow = start;
     maxCol = start;
 
@@ -164,7 +152,7 @@ void Matrix<T>::swapRows(size_t row1, size_t row2) {
     checkRowIndex(row1);
     checkRowIndex(row2);
 
-    swap(data[row1], data[row2]);
+    std::swap(data[row1], data[row2]);
 }
 
 template<typename T>
@@ -177,18 +165,18 @@ void Matrix<T>::swapColumns(size_t col1, size_t col2) {
     checkColIndex(col2);
 
     for (size_t i = 0; i < rows; ++i) {
-        swap(data[i][col1], data[i][col2]);
+        std::swap(data[i][col1], data[i][col2]);
     }
 }
 
 template<typename T>
 void Matrix<T>::transform() {
     if (!isSquare()) {
-        throw runtime_error("Matrix must be square for transformation");
+        throw std::runtime_error("Matrix must be square for transformation");
     }
 
     if (isEmpty()) {
-        throw runtime_error("Matrix is empty");
+        throw std::runtime_error("Matrix is empty");
     }
 
     for (size_t k = 0; k < rows; ++k) {
@@ -215,7 +203,7 @@ int Matrix<T>::findFirstRowWithoutPositive() const {
             }
         }
         if (!hasPositive) {
-            return static_cast<int>(i + 1); // +1 для пользовательской нумерации
+            return static_cast<int>(i + 1);
         }
     }
     return -1;
@@ -238,30 +226,28 @@ bool Matrix<T>::isDiagonalDescending() const {
 template<typename T>
 void Matrix<T>::printDiagonal() const {
     if (!isSquare() || isEmpty()) {
-        cout << "Matrix is not square or empty" << endl;
+        std::cout << "Matrix is not square or empty" << std::endl;
         return;
     }
 
-    cout << "Main diagonal: ";
+    std::cout << "Main diagonal: ";
     for (size_t i = 0; i < rows; ++i) {
-        cout << data[i][i];
+        std::cout << data[i][i];
         if (i < rows - 1) {
-            cout << " ";
+            std::cout << " ";
         }
     }
-    cout << endl;
+    std::cout << std::endl;
 }
-
-// ========== СТАТИЧЕСКИЕ МЕТОДЫ ==========
 
 template<typename T>
 Matrix<T> Matrix<T>::createRandom(size_t rows, size_t cols, T minVal, T maxVal) {
     if (rows == 0 || cols == 0) {
-        throw invalid_argument("Matrix dimensions must be positive");
+        throw std::invalid_argument("Matrix dimensions must be positive");
     }
 
     if (minVal > maxVal) {
-        throw invalid_argument("Minimum value cannot be greater than maximum value");
+        throw std::invalid_argument("Minimum value cannot be greater than maximum value");
     }
 
     Matrix<T> mat(rows, cols);
@@ -277,11 +263,9 @@ Matrix<T> Matrix<T>::createRandom(size_t rows, size_t cols, T minVal, T maxVal) 
     return mat;
 }
 
-// Явная инстанциация шаблона для типа double
 template class Matrix<double>;
 
-// Явная инстанциация шаблонных функций для типа double
 template std::ostream& operator<<(std::ostream& os, const Matrix<double>& matrix);
 template std::istream& operator>>(std::istream& is, Matrix<double>& matrix);
 
-#endif // MATRIX_CPP
+#endif

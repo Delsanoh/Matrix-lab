@@ -2,13 +2,9 @@
 
 #include "../Лаба 4/Matrix.cpp"
 #include "../Лаба 4/Matrix_Operations.cpp"
-#include "gtest/gtest.h"
+
 #include <vector>
 #include <stdexcept>
-
-// ============================================
-// ТЕСТЫ ДЛЯ КАСТОМНОГО КЛАССА MATRIX
-// ============================================
 
 TEST(MatrixClassTest, DefaultConstructor) {
     Matrix<double> m;
@@ -23,7 +19,6 @@ TEST(MatrixClassTest, ConstructorWithDimensions) {
     EXPECT_EQ(m.getCols(), 4);
     EXPECT_FALSE(m.isEmpty());
 
-    // Проверка инициализации нулями
     for (size_t i = 0; i < 3; ++i) {
         for (size_t j = 0; j < 4; ++j) {
             EXPECT_DOUBLE_EQ(m(i, j), 0.0);
@@ -43,7 +38,6 @@ TEST(MatrixClassTest, AccessOperators) {
     EXPECT_DOUBLE_EQ(m(1, 0), 3.0);
     EXPECT_DOUBLE_EQ(m(1, 1), 4.0);
 
-    // Проверка оператора []
     EXPECT_DOUBLE_EQ(m[0][0], 1.0);
     EXPECT_DOUBLE_EQ(m[0][1], 2.0);
     EXPECT_DOUBLE_EQ(m[1][0], 3.0);
@@ -51,7 +45,6 @@ TEST(MatrixClassTest, AccessOperators) {
 }
 
 TEST(MatrixClassTest, TransformSquareMatrix) {
-    // Тестовая матрица 3x3
     std::vector<std::vector<double>> data = {
         {1.0, 2.0, 3.0},
         {4.0, 5.0, 6.0},
@@ -60,17 +53,12 @@ TEST(MatrixClassTest, TransformSquareMatrix) {
 
     Matrix<double> m(data);
     EXPECT_TRUE(m.isSquare());
-
-    // Выполняем преобразование
     m.transform();
 
-    // После преобразования максимальные элементы должны быть на диагонали
-    // Проверяем, что на позиции (0,0) находится максимальный элемент всей матрицы (9.0)
     EXPECT_DOUBLE_EQ(m(0, 0), 9.0);
 }
 
 TEST(MatrixClassTest, FindFirstRowWithoutPositive) {
-    // Матрица, где вторая строка (индекс 1) не имеет положительных элементов
     std::vector<std::vector<double>> data = {
         {1.0, 2.0, 3.0},
         {-1.0, -2.0, -3.0},
@@ -79,13 +67,11 @@ TEST(MatrixClassTest, FindFirstRowWithoutPositive) {
 
     Matrix<double> m(data);
 
-    // Метод возвращает номер строки (начиная с 1)
     int result = m.findFirstRowWithoutPositive();
-    EXPECT_EQ(result, 2); // Вторая строка (нумерация с 1)
+    EXPECT_EQ(result, 2);
 }
 
 TEST(MatrixClassTest, IsDiagonalDescending) {
-    // Матрица с убывающей диагональю
     std::vector<std::vector<double>> data1 = {
         {5.0, 1.0, 1.0},
         {1.0, 4.0, 1.0},
@@ -95,7 +81,6 @@ TEST(MatrixClassTest, IsDiagonalDescending) {
     Matrix<double> m1(data1);
     EXPECT_TRUE(m1.isDiagonalDescending());
 
-    // Матрица с возрастающей диагональю
     std::vector<std::vector<double>> data2 = {
         {1.0, 1.0, 1.0},
         {1.0, 2.0, 1.0},
@@ -109,7 +94,6 @@ TEST(MatrixClassTest, IsDiagonalDescending) {
 TEST(MatrixClassTest, InvalidAccessThrows) {
     Matrix<double> m(2, 2);
 
-    // Попытка доступа к несуществующему элементу должна бросать исключение
     EXPECT_THROW(m(2, 0), std::out_of_range);
     EXPECT_THROW(m(0, 2), std::out_of_range);
     EXPECT_THROW(m(2, 2), std::out_of_range);
@@ -117,9 +101,6 @@ TEST(MatrixClassTest, InvalidAccessThrows) {
     EXPECT_THROW(m[2], std::out_of_range);
 }
 
-// ============================================
-// ТЕСТЫ ДЛЯ C-СТИЛЯ МАТРИЦ
-// ============================================
 
 TEST(CMatrixTest, ConstructorAndDestructor) {
     CMatrix m(2, 3);
@@ -127,7 +108,6 @@ TEST(CMatrixTest, ConstructorAndDestructor) {
     EXPECT_EQ(m.cols, 3);
     EXPECT_FALSE(m.isEmpty());
 
-    // Проверка инициализации нулями
     for (size_t i = 0; i < 2; ++i) {
         for (size_t j = 0; j < 3; ++j) {
             EXPECT_DOUBLE_EQ(m(i, j), 0.0);
@@ -142,7 +122,6 @@ TEST(CMatrixTest, CopyConstructor) {
     m1(1, 0) = 3.0;
     m1(1, 1) = 4.0;
 
-    // Копирование
     CMatrix m2 = m1;
 
     EXPECT_EQ(m2.rows, 2);
@@ -150,47 +129,39 @@ TEST(CMatrixTest, CopyConstructor) {
     EXPECT_DOUBLE_EQ(m2(0, 0), 1.0);
     EXPECT_DOUBLE_EQ(m2(1, 1), 4.0);
 
-    // Изменение оригинала не должно влиять на копию
     m1(0, 0) = 99.0;
-    EXPECT_DOUBLE_EQ(m2(0, 0), 1.0); // Копия не изменилась
+    EXPECT_DOUBLE_EQ(m2(0, 0), 1.0);
 }
 
 TEST(CMatrixTest, TransformFunction) {
     CMatrix m(3, 3);
 
-    // Заполняем матрицу
     m(0, 0) = 1.0; m(0, 1) = 2.0; m(0, 2) = 3.0;
-    m(1, 0) = 4.0; m(1, 1) = 9.0; m(1, 2) = 6.0; // 9.0 - максимальный элемент
+    m(1, 0) = 4.0; m(1, 1) = 9.0; m(1, 2) = 6.0;
     m(2, 0) = 7.0; m(2, 1) = 8.0; m(2, 2) = 5.0;
 
     transformCMatrix(m);
 
-    // После преобразования максимальный элемент (9.0) должен быть на позиции (0,0)
     EXPECT_DOUBLE_EQ(m(0, 0), 9.0);
 }
 
 TEST(CMatrixTest, FindFirstRowWithoutPositiveFunction) {
     CMatrix m(3, 3);
 
-    // Первая строка с отрицательными элементами
     m(0, 0) = -1.0; m(0, 1) = -2.0; m(0, 2) = -3.0;
     m(1, 0) = 4.0;  m(1, 1) = 5.0;  m(1, 2) = 6.0;
     m(2, 0) = 7.0;  m(2, 1) = 8.0;  m(2, 2) = 9.0;
 
     int result = findFirstRowWithoutPositiveC(m);
-    EXPECT_EQ(result, 1); // Первая строка (нумерация с 1)
+    EXPECT_EQ(result, 1);
 }
 
-// ============================================
-// ТЕСТЫ ДЛЯ VECTOR_STYLE МАТРИЦ
-// ============================================
 
 TEST(VectorMatrixTest, CreateAndAccess) {
     VectorMatrix m = createVectorMatrix(2, 3);
     EXPECT_EQ(m.size(), 2);
     EXPECT_EQ(m[0].size(), 3);
 
-    // Заполняем и проверяем
     m[0][0] = 1.0; m[0][1] = 2.0; m[0][2] = 3.0;
     m[1][0] = 4.0; m[1][1] = 5.0; m[1][2] = 6.0;
 
@@ -202,12 +173,11 @@ TEST(VectorMatrixTest, TransformFunction) {
     VectorMatrix m = createVectorMatrix(3, 3);
 
     m[0][0] = 1.0; m[0][1] = 2.0; m[0][2] = 3.0;
-    m[1][0] = 4.0; m[1][1] = 8.0; m[1][2] = 6.0; // 8.0 - максимальный
-    m[2][0] = 7.0; m[2][1] = 5.0; m[2][2] = 9.0; // 9.0 - еще больше
+    m[1][0] = 4.0; m[1][1] = 8.0; m[1][2] = 6.0;
+    m[2][0] = 7.0; m[2][1] = 5.0; m[2][2] = 9.0; 
 
     transformVectorMatrix(m);
 
-    // После преобразования максимальный элемент (9.0) должен быть на позиции (0,0)
     EXPECT_DOUBLE_EQ(m[0][0], 9.0);
 }
 
@@ -231,9 +201,7 @@ TEST(VectorMatrixTest, IsDiagonalDescendingFunction) {
     EXPECT_FALSE(isDiagonalDescendingVector(m2));
 }
 
-// ============================================
-// ТЕСТЫ ДЛЯ ИСКЛЮЧЕНИЙ
-// ============================================
+
 
 TEST(ExceptionTest, InvalidMatrixSize) {
     // Нулевые размеры должны бросать исключение
@@ -248,16 +216,12 @@ TEST(ExceptionTest, InvalidMatrixSize) {
 TEST(ExceptionTest, InvalidIndices) {
     Matrix<double> m(2, 2);
 
-    // Проверка различных невалидных индексов
     EXPECT_THROW(m(2, 0), std::out_of_range);
     EXPECT_THROW(m(0, 2), std::out_of_range);
     EXPECT_THROW(m(2, 2), std::out_of_range);
     EXPECT_THROW(m(100, 100), std::out_of_range);
 }
 
-// ============================================
-// ТЕСТЫ ДЛЯ СЛУЧАЙНЫХ МАТРИЦ
-// ============================================
 
 TEST(RandomMatrixTest, CreateRandomMatrixClass) {
     Matrix<double> m = Matrix<double>::createRandom(3, 3, 1.0, 10.0);
@@ -265,7 +229,6 @@ TEST(RandomMatrixTest, CreateRandomMatrixClass) {
     EXPECT_EQ(m.getRows(), 3);
     EXPECT_EQ(m.getCols(), 3);
 
-    // Проверяем, что все элементы в заданном диапазоне
     for (size_t i = 0; i < 3; ++i) {
         for (size_t j = 0; j < 3; ++j) {
             EXPECT_GE(m(i, j), 1.0);
@@ -280,7 +243,6 @@ TEST(RandomMatrixTest, CreateRandomCMatrix) {
     EXPECT_EQ(m.rows, 2);
     EXPECT_EQ(m.cols, 2);
 
-    // Проверяем диапазон
     for (size_t i = 0; i < 2; ++i) {
         for (size_t j = 0; j < 2; ++j) {
             EXPECT_GE(m(i, j), 0.0);

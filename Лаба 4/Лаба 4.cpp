@@ -3,19 +3,11 @@
 #include "Matrix.h"
 #include "Matrix_Operations.h"
 
-// ============================================
-// ENUM ДЛЯ ВЫБОРА ТИПА МАТРИЦЫ
-// ============================================
-
 enum class MatrixType {
-    C_STYLE = 1,        // Сырые указатели (C-стиль)
-    VECTOR_STYLE = 2,   // std::vector<std::vector<double>> (STL стиль)
-    MATRIX_CLASS = 3    // Кастомный класс Matrix
+    C_STYLE = 1,
+    VECTOR_STYLE = 2,
+    MATRIX_CLASS = 3
 };
-
-// ============================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ============================================
 
 MatrixType chooseMatrixType() {
     int choice;
@@ -74,10 +66,6 @@ void getRandomRange(double& minVal, double& maxVal) {
         throw std::invalid_argument("Минимальное значение не может быть больше максимального");
     }
 }
-
-// ============================================
-// ФУНКЦИИ РАБОТЫ С РАЗНЫМИ ТИПАМИ МАТРИЦ
-// ============================================
 
 void demonstrateCStyle() {
     std::cout << "\n=== РАБОТА С C-СТИЛЕМ (СЫРЫЕ УКАЗАТЕЛИ) ===" << std::endl;
@@ -250,12 +238,7 @@ void demonstrateMatrixClass() {
     }
 }
 
-// ============================================
-// ГЛАВНАЯ ФУНКЦИЯ
-// ============================================
-
 int main() {
-    // Установка русской локали
     std::locale::global(std::locale(""));
 
     std::cout << "ПРОГРАММА ДЛЯ РАБОТЫ С МАТРИЦАМИ" << std::endl;
