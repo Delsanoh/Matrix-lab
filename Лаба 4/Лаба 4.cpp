@@ -242,7 +242,6 @@ int main() {
     std::locale::global(std::locale(""));
 
     std::cout << "ПРОГРАММА ДЛЯ РАБОТЫ С МАТРИЦАМИ" << std::endl;
-    std::cout << "=================================" << std::endl;
 
     try {
         MatrixType matrixType = chooseMatrixType();

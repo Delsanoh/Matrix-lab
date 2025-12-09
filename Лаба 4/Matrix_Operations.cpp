@@ -15,16 +15,18 @@ CMatrix::CMatrix(std::size_t r, std::size_t c) : rows(r), cols(c) {
     }
 
     data = new double* [rows];
-    if (!data) throw std::bad_alloc();
+    if (!data) throw std::bad_alloc();//не надо
 
     for (std::size_t i = 0; i < rows; ++i) {
         data[i] = new double[cols];
         if (!data[i]) {
             for (std::size_t j = 0; j < i; ++j) {
                 delete[] data[j];
+                data[j] = nullptr;
             }
             delete[] data;
-            throw std::bad_alloc();
+            data = nullptr;
+            //throw std::bad_alloc();
         }
 
         for (std::size_t j = 0; j < cols; ++j) {
@@ -445,7 +447,8 @@ void transformVectorMatrix(VectorMatrix& matrix) {
 
     for (std::size_t k = 0; k < matrix.size(); ++k) {
         std::size_t maxRow, maxCol;
-        findMaxInVectorSubmatrix(matrix, k, maxRow, maxCol);
+        findMaxInVectorSubmatrix(matrix, k, maxRow, maxCol); //СТАРТОВАЯ ПОЗИЦИЯ ДЛЯ ПОДМАТРИЦЫ ПОЗВОЛЯЕТ
+        //С КАЖДЫМ ПРОХОДОМ ИГНОРИРОВАТЬ СТРОКИ И СТОЛБЦы, КОТОРЫЕ МЫ УЖЕ ПРЕОБРАЗОВАЛИ
 
         swapVectorRows(matrix, k, maxRow);
         swapVectorColumns(matrix, k, maxCol);

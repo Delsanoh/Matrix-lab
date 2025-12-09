@@ -55,6 +55,7 @@ CMatrix createCMatrix(std::size_t rows, std::size_t cols);
 CMatrix createRandomCMatrix(std::size_t rows, std::size_t cols, double minVal, double maxVal);
 
 // Основные операции для задачи
+//закомментіть место где ігноріруетс своя строка і столбец для рассматріваемого элемента
 void findMaxInCSubmatrix(const CMatrix& matrix, std::size_t start, std::size_t& maxRow, std::size_t& maxCol);
 void swapCRows(CMatrix& matrix, std::size_t row1, std::size_t row2);
 void swapCColumns(CMatrix& matrix, std::size_t col1, std::size_t col2);
