@@ -15,7 +15,6 @@ CMatrix::CMatrix(std::size_t r, std::size_t c) : rows(r), cols(c) {
     }
 
     data = new double* [rows];
-    if (!data) throw std::bad_alloc();//не надо
 
     for (std::size_t i = 0; i < rows; ++i) {
         data[i] = new double[cols];
@@ -26,7 +25,6 @@ CMatrix::CMatrix(std::size_t r, std::size_t c) : rows(r), cols(c) {
             }
             delete[] data;
             data = nullptr;
-            //throw std::bad_alloc();
         }
 
         for (std::size_t j = 0; j < cols; ++j) {
@@ -58,7 +56,6 @@ CMatrix::CMatrix(const CMatrix& other) : rows(other.rows), cols(other.cols) {
     }
 
     data = new double* [rows];
-    if (!data) throw std::bad_alloc();
 
     for (std::size_t i = 0; i < rows; ++i) {
         data[i] = new double[cols];
