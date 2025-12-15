@@ -201,6 +201,10 @@ std::istream& operator>>(std::istream& is, CMatrix& matrix) {
     return is;
 }
 
+
+// ТУТ БЫЛІ ПЕРЕГРУЗКИ И КОНСТРУКТОРЫ!!!!!!!!!!!!!!
+//ТУТ БУДУТ ФУНКЦИИ ДЛЯ СИШНЫХ МАТРИЦ!!!!!!!!!!!!
+
 CMatrix createCMatrix(std::size_t rows, std::size_t cols) {
     return CMatrix(rows, cols);
 }
@@ -334,6 +338,8 @@ void printDiagonalC(const CMatrix& matrix) {
     std::cout << std::endl;
 }
 
+//Для векторов
+
 VectorMatrix createVectorMatrix(std::size_t rows, std::size_t cols) {
     if (rows == 0 || cols == 0) {
         throw std::invalid_argument("Matrix dimensions must be positive");
@@ -445,7 +451,7 @@ void transformVectorMatrix(VectorMatrix& matrix) {
     for (std::size_t k = 0; k < matrix.size(); ++k) {
         std::size_t maxRow, maxCol;
         findMaxInVectorSubmatrix(matrix, k, maxRow, maxCol); //СТАРТОВАЯ ПОЗИЦИЯ ДЛЯ ПОДМАТРИЦЫ ПОЗВОЛЯЕТ
-        //С КАЖДЫМ ПРОХОДОМ ИГНОРИРОВАТЬ СТРОКИ И СТОЛБЦы, КОТОРЫЕ МЫ УЖЕ ПРЕОБРАЗОВАЛИ
+        //С КАЖДЫМ ПРОХОДОМ ИГНОРИРОВАТЬ СТРОКИ И СТОЛБЦЫ, КОТОРЫЕ МЫ УЖЕ ПРЕОБРАЗОВАЛИ
 
         swapVectorRows(matrix, k, maxRow);
         swapVectorColumns(matrix, k, maxCol);
