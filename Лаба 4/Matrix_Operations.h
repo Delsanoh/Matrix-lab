@@ -5,9 +5,6 @@
 #include <cstddef>
 #include <ostream>
 
-// ============================================
-// ТИПЫ И СТРУКТУРЫ
-// ============================================
 
 // C-стиль матрица
 struct CMatrix {
@@ -46,9 +43,6 @@ struct CMatrix {
 // Псевдоним для STL матрицы
 using VectorMatrix = std::vector<std::vector<double>>;
 
-// ============================================
-// ФУНКЦИИ ДЛЯ C-СТИЛЯ МАТРИЦ
-// ============================================
 
 // Создание и управление
 CMatrix createCMatrix(std::size_t rows, std::size_t cols);
@@ -64,9 +58,6 @@ int findFirstRowWithoutPositiveC(const CMatrix& matrix);
 bool isDiagonalDescendingC(const CMatrix& matrix);
 void printDiagonalC(const CMatrix& matrix);
 
-// ============================================
-// ФУНКЦИИ ДЛЯ VECTOR_STYLE МАТРИЦ
-// ============================================
 
 // Создание и управление
 VectorMatrix createVectorMatrix(std::size_t rows, std::size_t cols);

@@ -3,6 +3,8 @@
 #include "Matrix.h"
 #include "Matrix_Operations.h"
 
+
+//енум класс для выбора динамической матрицы из обёртки вокруг сырых укаазателей, вектора и своего класса, завязанного на векторе.
 enum class MatrixType {
     C_STYLE = 1,
     VECTOR_STYLE = 2,
@@ -22,9 +24,15 @@ MatrixType chooseMatrixType() {
     }
 
     switch (choice) {
-    case 1: return MatrixType::C_STYLE;
-    case 2: return MatrixType::VECTOR_STYLE;
-    case 3: return MatrixType::MATRIX_CLASS;
+    case 1: {
+        return MatrixType::C_STYLE;
+    }
+    case 2: {
+        return MatrixType::VECTOR_STYLE;
+    }
+    case 3: {
+        return MatrixType::MATRIX_CLASS;
+    }
     default:
         std::cout << "Неверный выбор! Используется кастомный класс Matrix." << std::endl;
         return MatrixType::MATRIX_CLASS;
@@ -68,9 +76,7 @@ void getRandomRange(double& minVal, double& maxVal) {
 }
 
 void demonstrateCStyle() {
-    std::cout << "\n=== РАБОТА С C-СТИЛЕМ (СЫРЫЕ УКАЗАТЕЛИ) ===" << std::endl;
-
-    try {
+    std::cout << "\nРАБОТА С C-СТИЛЕМ (СЫРЫЕ УКАЗАТЕЛИ)" << std::endl;
         std::size_t rows, cols;
         getMatrixSize(rows, cols);
 
@@ -78,7 +84,7 @@ void demonstrateCStyle() {
 
         int inputMethod = chooseInputMethod();
         if (inputMethod == 1) {
-            std::cin >> matrix;
+            std::cin >> matrix; //перегрузка ввода реалізована для объектов
         }
         else {
             double minVal, maxVal;
@@ -87,7 +93,7 @@ void demonstrateCStyle() {
         }
 
         std::cout << "\nИсходная матрица:" << std::endl;
-        std::cout << matrix;
+        std::cout << matrix; // тоже перегружен
 
         if (matrix.isSquare()) {
             std::cout << "\nВыполняем преобразование матрицы..." << std::endl;
@@ -117,17 +123,10 @@ void demonstrateCStyle() {
             }
         }
 
-    }
-    catch (const std::exception& e) {
-        std::cerr << "\nОшибка: " << e.what() << std::endl;
-        throw;
-    }
 }
 
 void demonstrateVectorStyle() {
-    std::cout << "\n=== РАБОТА С STL СТИЛЕМ (vector<vector<double>>) ===" << std::endl;
-
-    try {
+    std::cout << "\nРАБОТА С STL СТИЛЕМ (vector<vector<double>>)" << std::endl;
         std::size_t rows, cols;
         getMatrixSize(rows, cols);
 
@@ -174,17 +173,10 @@ void demonstrateVectorStyle() {
             }
         }
 
-    }
-    catch (const std::exception& e) {
-        std::cerr << "\nОшибка: " << e.what() << std::endl;
-        throw;
-    }
 }
 
 void demonstrateMatrixClass() {
-    std::cout << "\n=== РАБОТА С КАСТОМНЫМ КЛАССОМ MATRIX ===" << std::endl;
-
-    try {
+    std::cout << "\nРАБОТА С КАСТОМНЫМ КЛАССОМ MATRIX" << std::endl;
         std::size_t rows, cols;
         getMatrixSize(rows, cols);
 
@@ -231,11 +223,6 @@ void demonstrateMatrixClass() {
             }
         }
 
-    }
-    catch (const std::exception& e) {
-        std::cerr << "\nОшибка: " << e.what() << std::endl;
-        throw;
-    }
 }
 
 int main() {
@@ -265,27 +252,27 @@ int main() {
 
     }
     catch (const std::bad_alloc& e) {
-        std::cerr << "\nКритическая ошибка: Недостаточно памяти!" << std::endl;
+        std::cout << "\nКритическая ошибка: Недостаточно памяти!" << std::endl;
         return 2;
     }
     catch (const std::invalid_argument& e) {
-        std::cerr << "\nОшибка аргумента: " << e.what() << std::endl;
+        std::cout << "\nОшибка аргумента: " << e.what() << std::endl;
         return 3;
     }
     catch (const std::out_of_range& e) {
-        std::cerr << "\nОшибка диапазона: " << e.what() << std::endl;
+        std::cout << "\nОшибка диапазона: " << e.what() << std::endl;
         return 4;
     }
     catch (const std::runtime_error& e) {
-        std::cerr << "\nОшибка выполнения: " << e.what() << std::endl;
+        std::cout << "\nОшибка выполнения: " << e.what() << std::endl;
         return 5;
     }
     catch (const std::exception& e) {
-        std::cerr << "\nСтандартная ошибка: " << e.what() << std::endl;
+        std::cout << "\nСтандартная ошибка: " << e.what() << std::endl;
         return 6;
     }
     catch (...) {
-        std::cerr << "\nНеизвестная ошибка!" << std::endl;
+        std::cout << "\nНеизвестная ошибка!" << std::endl;
         return 7;
     }
 
