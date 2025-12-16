@@ -99,7 +99,4 @@ std::istream& operator>>(std::istream& is, Matrix<T>& matrix) {
     return is;
 }
 
-// Включение реализации шаблонного класса
-#include "Matrix.cpp"
-
 #endif // MATRIX_H
